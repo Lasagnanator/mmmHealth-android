@@ -15,6 +15,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView  height;
     TextView  weight;
     TextView  lastVisit;
+    TextView  lastReport;
     ImageView imgAvatar;
 
 
@@ -23,14 +24,15 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        name      = findViewById(R.id.name);
-        lastname  = findViewById(R.id.lastname);
-        birthdate = findViewById(R.id.birthdate);
-        sex       = findViewById(R.id.sex);
-        height    = findViewById(R.id.height);
-        weight    = findViewById(R.id.weight);
-        lastVisit = findViewById(R.id.lastVisit);
-        imgAvatar = findViewById(R.id.imgAvatar);
+        name       = findViewById(R.id.name);
+        lastname   = findViewById(R.id.lastname);
+        birthdate  = findViewById(R.id.birthdate);
+        sex        = findViewById(R.id.sex);
+        height     = findViewById(R.id.height);
+        weight     = findViewById(R.id.weight);
+        lastVisit  = findViewById(R.id.lastVisit);
+        lastReport = findViewById(R.id.lastVisit);
+        imgAvatar  = findViewById(R.id.imgAvatar);
 
         setUserData(getIntent().getExtras().getString("id"));
     }
@@ -47,6 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
         height.setText("160cm");
         weight.setText("60kg");
         lastVisit.setText("31/12/2022");
+        lastReport.setText("31/2/2000mai");
         if (sex.equals("male")) {
             imgAvatar.getResources().getDrawable(R.drawable.maleavatar);
         } else {
