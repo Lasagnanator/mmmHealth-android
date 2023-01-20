@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="232dp"
+        android:layout_marginTop="200dp"
         android:text="Utente:"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,13 +88,13 @@
     <ImageView
         android:id="@+id/logoApp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/capy" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
