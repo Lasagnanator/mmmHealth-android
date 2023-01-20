@@ -30,10 +30,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        txtAccesso  = findViewById(R.id.txtResult);
-        edtUserName = findViewById(R.id.edtUsrName);
-        edtPassword = findViewById(R.id.edtPasswd);
-        btnLogin    = findViewById(R.id.btnEnter);
+        txtAccesso  = findViewById(R.id.txtAccesso);
+        edtUserName = findViewById(R.id.edtUserName);
+        edtPassword = findViewById(R.id.edtPassword); //aggiungere funzione di hash per la pw
+        btnLogin    = findViewById(R.id.btnEntra);
     }
 
     public void effettuaAccesso (View v)  {
