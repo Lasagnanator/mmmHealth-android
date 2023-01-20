@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
         txtAccesso  = findViewById(R.id.txtAccesso);
         edtUserName = findViewById(R.id.edtUserName);
-        edtPassword = findViewById(R.id.edtPassword);
+        edtPassword = findViewById(R.id.edtPassword); //aggiungere funzione di hash per la pw
         btnLogin    = findViewById(R.id.btnEntra);
     }
 
