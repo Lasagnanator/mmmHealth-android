@@ -31,7 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
         height     = findViewById(R.id.height);
         weight     = findViewById(R.id.weight);
         lastVisit  = findViewById(R.id.lastVisit);
-        lastReport = findViewById(R.id.lastVisit);
+        lastReport = findViewById(R.id.lastReport);
         imgAvatar  = findViewById(R.id.imgAvatar);
 
         setUserData(getIntent().getExtras().getString("id"));
@@ -50,10 +50,11 @@ public class ProfileActivity extends AppCompatActivity {
         weight.setText("60kg");
         lastVisit.setText("31/12/2022");
         lastReport.setText("31/2/2000mai");
-        if (sex.equals("male")) {
-            imgAvatar.getResources().getDrawable(R.drawable.maleavatar);
+        //RIVEDERE IF DOPO IMPLEMENTAZIONE BACKEND
+        if ((sex.getText()).equals("Male")) {
+            imgAvatar.setImageResource(R.drawable.maleavatar);
         } else {
-            imgAvatar.getResources().getDrawable(R.drawable.femaleavatar);
+            imgAvatar.setImageResource(R.drawable.femaleavatar);
         }
 
     }
