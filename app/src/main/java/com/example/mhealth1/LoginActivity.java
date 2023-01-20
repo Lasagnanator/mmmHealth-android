@@ -6,11 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -26,15 +28,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
-        txtAccesso  = findViewById(R.id.txtAccesso);
-        edtUserName = findViewById(R.id.edtUserName);
-        edtPassword = findViewById(R.id.edtPassword);
-        btnLogin    = findViewById(R.id.btnEntra);
+        txtAccesso  = findViewById(R.id.txtResult);
+        edtUserName = findViewById(R.id.edtUsrName);
+        edtPassword = findViewById(R.id.edtPasswd);
+        btnLogin    = findViewById(R.id.btnEnter);
     }
 
-    public void effettuaAccesso (View v) {
+    public void effettuaAccesso (View v)  {
 
         String user = String.valueOf(edtUserName.getText());
         String password = String.valueOf(edtPassword.getText());
@@ -50,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
             txtAccesso.setTextColor(Color.parseColor("green"));
             txtAccesso.setVisibility(View.VISIBLE);
             userId = getUserid(user, password);
+            // add delay
             launchMainActivity(userId);
         } else {
             txtAccesso.setText("Accesso negato!");
