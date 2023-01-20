@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,9 +37,33 @@ public class MainActivity extends AppCompatActivity {
         imgPlanButton    = findViewById(R.id.imgPlanButton);
         imgReportButton  = findViewById(R.id.imgReportButton);
 
-        String userId  = getIntent().getExtras().getString("id");
+        //String userId  = getIntent().getExtras().getString("id");
+        String userId = "testid";
         setUserInformations(userId);
 
+        imgProfileButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                launchProfileActivity(userId);
+                return false;
+            }
+        });
+
+        imgReportButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                launchReportActivity(userId);
+                return false;
+            }
+        });
+
+        imgPlanButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                launchPlanActivity(userId);
+                return false;
+            }
+        });
     }
 
     /**
@@ -90,12 +116,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void setUserImage(String id) {
         // Da implementare
-        String userSex = "male";
+        String userSex = "Male";
 
-        if (userSex.equals("male")) {
-            imgUser.getResources().getDrawable(R.drawable.maleavatar);
+        if (userSex.equals("Male")) {
+            imgUser.setImageResource(R.drawable.maleavatar);
         } else {
-            imgUser.getResources().getDrawable(R.drawable.femaleavatar);
+            imgUser.setImageResource(R.drawable.femaleavatar);
         }
     }
 
