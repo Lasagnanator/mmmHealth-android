@@ -45,7 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
         name.setText("Mario");
         lastname.setText("Rossi");
         birthdate.setText("1/1/1990");
-        sex.setText("Male");
+        sex.setText("Female");
         height.setText("160cm");
         weight.setText("60kg");
         lastVisit.setText("31/12/2022");
