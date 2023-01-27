@@ -37,6 +37,12 @@ public class ProfileActivity extends AppCompatActivity {
         setUserData(getIntent().getExtras().getString("id"));
     }
 
+    //#############################################################################################
+    //##                                                                                         ##
+    //##           Tutta parte da implementare con backend o array di users                      ##
+    //##                                                                                         ##
+    //#############################################################################################
+
     /**
      * cerca i paramentri dell'utente in base all'id e setta tutti i dati
      * @param id String REQUIRE not null

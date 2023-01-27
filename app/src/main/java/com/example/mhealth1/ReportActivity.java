@@ -19,7 +19,7 @@ public class ReportActivity extends AppCompatActivity {
     EditText edtWeight;
     Button   btnManual;
     Button   btnWearable;
-    String userId = "testid"; //getIntent().getExtras().getString("id"); non funzia.... why?
+    String   userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,9 @@ public class ReportActivity extends AppCompatActivity {
         edtWeight       = findViewById(R.id.edtWeight);
         btnManual       = findViewById(R.id.btnManual);
         btnWearable     = findViewById(R.id.btnWearable);
+        userId          = getIntent().getExtras().getString("id");
 
+        // define default seekbar values
         skbUmore.setProgress(51);
         skbUmore.incrementProgressBy(10);
         skbUmore.setMax(100);
@@ -57,17 +59,49 @@ public class ReportActivity extends AppCompatActivity {
         btnManual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), DataActivity.class);
-                i.putExtra("id", userId);
-                startActivity(i);
+                launchDataActivity(userId);
+                submitData1(userId);
             }
         });
 
         btnWearable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //launch wearable app
+               launchWeareble(userId);
+               submitData1(userId);
             }
         });
+    }
+
+    /**
+     * lancia l'activity dove inserire i dati clinici manualmente
+     * @param id String REQUIRE not null
+     */
+    public void launchDataActivity (String id) {
+        Intent i = new Intent(getApplicationContext(), DataActivity.class);
+        i.putExtra("id", userId);
+        startActivity(i);
+    }
+
+    /**
+     * lancia l'activity dove inserire i dati clinici sul wearable
+     * @param id String REQUIRE not null
+     */
+    public void launchWeareble (String id) {
+        // da implementare
+    }
+
+    //#############################################################################################
+    //##                                                                                         ##
+    //##           Tutta parte da implementare con backend o array di users                      ##
+    //##                                                                                         ##
+    //#############################################################################################
+
+    /**
+     * trasmette i dati di seekbar e note al database
+     * @param id String REQUIRE not null
+     */
+    public void submitData1(String id){
+        // da implementare
     }
 }

@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         imgPlanButton    = findViewById(R.id.imgPlanButton);
         imgReportButton  = findViewById(R.id.imgReportButton);
 
-        //String userId  = getIntent().getExtras().getString("id");
-        String userId = "testid";
+        String userId  = getIntent().getExtras().getString("id");
+        //String userId = "testid";
         setUserInformations(userId);
 
         imgProfileButton.setOnTouchListener(new View.OnTouchListener() {

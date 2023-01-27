@@ -29,21 +29,32 @@ public class PlanActivity extends AppCompatActivity {
         btnCallMedico.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //lancia app telelfono con numnero del medico
-                Intent phone = new Intent(Intent.ACTION_DIAL);
-                phone.setData(Uri.parse("tel:"+PHONENUMBER));
-                startActivity(phone);
-
+                launchPhoneApplication(getIntent().getExtras().getString("id"));
             }
         });
     }
+
+    /**
+     * apre il dialer e compone in automatico il numero di telefono
+     * @param id String REQUIRE not null
+     */
+    public void launchPhoneApplication(String id) {
+        Intent phone = new Intent(Intent.ACTION_DIAL);
+        phone.setData(Uri.parse("tel:"+PHONENUMBER));
+        startActivity(phone);
+    }
+
+    //#############################################################################################
+    //##                                                                                         ##
+    //##           Tutta parte da implementare con backend o array di users                      ##
+    //##                                                                                         ##
+    //#############################################################################################
 
     /**
      * inserisce il piano medico nella textview
      * @param id String REQUIRE not null
      */
     public void setUserMedicalPlan(String id){
-
         txtNotes.setText("nulla da segnalare, muori sereno \n - \n - \n - \n - \n - \n - :) \n - ;) \n - :o \n - :( \n a \n b \n c \n d \n e \n f \n g \n h \n i \n l \n m \n n \n o \n p \n quanto \n cazzo \n devo \n scrivere \n per \n provare \n questa \n scrollbar\n ");
         setPhoneNumber(id);
     }
@@ -55,4 +66,6 @@ public class PlanActivity extends AppCompatActivity {
     public void setPhoneNumber(String id){
         PHONENUMBER = "1234567890";
     }
+
+
 }
