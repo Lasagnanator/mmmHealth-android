@@ -1,26 +1,41 @@
 package com.example.mhealth1;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static com.example.mhealth1.DbUtility.Classes;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextView txtAccesso;
-    EditText edtUserName;
-    EditText edtPassword;
-    Button   btnLogin;
-    String   defaultUser     = "admin";
-    String   defaultPassword = "password";
-    String   userId;
+    TextView  txtAccesso;
+    EditText  edtUserName;
+    EditText  edtPassword;
+    Button    btnLogin;
+    String    defaultUser     = "admin";
+    String    defaultPassword = "password";
+    String    userId;
+    ImageView logoApp;
 
 
     @Override
@@ -32,18 +47,17 @@ public class LoginActivity extends AppCompatActivity {
         edtUserName = findViewById(R.id.edtUsrName);
         edtPassword = findViewById(R.id.edtPasswd); //aggiungere funzione di hash per la pw
         btnLogin    = findViewById(R.id.btnEnter);
+        logoApp     = findViewById(R.id.logoApp);
+        logoApp.setImageResource(R.drawable.itsvolta);
     }
 
+    /**
+     * controlla le credenziali, se sono corrette lancia la main activity e instaura una connessione con il db
+     * @param v
+     */
     public void effettuaAccesso (View v)  {
-
         String user = String.valueOf(edtUserName.getText());
         String password = String.valueOf(edtPassword.getText());
-
-        /* Nasconde la tastiera */
-        View view = this.getCurrentFocus();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
 
         if (user.equals(defaultUser) && password.equals(defaultPassword)) {
             txtAccesso.setText("Accesso effettuato!");
@@ -51,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
             txtAccesso.setVisibility(View.VISIBLE);
             userId = getUserid(user, password);
             // add delay
+            connectionToDb();
             launchMainActivity(userId);
         } else {
             txtAccesso.setText("Accesso negato!");
@@ -78,4 +93,27 @@ public class LoginActivity extends AppCompatActivity {
     public String getUserid(String user, String password){
         return "testid";
     }
+
+    /**
+     * Instaura la connessione con il database
+     */
+    public void connectionToDb(){
+        Connection connection = null;
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.INTERNET}, PackageManager.PERMISSION_GRANTED);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        try {
+            Class.forName(Classes);
+            connection = DriverManager.getConnection(DbUtility.url, DbUtility.username, DbUtility.password);
+            Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Connected no", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
+

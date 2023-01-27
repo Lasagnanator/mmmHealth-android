@@ -13,7 +13,6 @@ public class ProfileActivity extends AppCompatActivity {
     TextView  sex;
     TextView  birthdate;
     TextView  height;
-    TextView  weight;
     TextView  lastVisit;
     TextView  lastReport;
     ImageView imgAvatar;
@@ -29,7 +28,6 @@ public class ProfileActivity extends AppCompatActivity {
         birthdate  = findViewById(R.id.birthdate);
         sex        = findViewById(R.id.sex);
         height     = findViewById(R.id.height);
-        weight     = findViewById(R.id.weight);
         lastVisit  = findViewById(R.id.lastVisit);
         lastReport = findViewById(R.id.lastReport);
         imgAvatar  = findViewById(R.id.imgAvatar);
@@ -53,7 +51,6 @@ public class ProfileActivity extends AppCompatActivity {
         birthdate.setText("1/1/1990");
         sex.setText("Female");
         height.setText("160cm");
-        weight.setText("60kg");
         lastVisit.setText("31/12/2022");
         lastReport.setText("31/2/2000mai");
         //RIVEDERE IF DOPO IMPLEMENTAZIONE BACKEND
