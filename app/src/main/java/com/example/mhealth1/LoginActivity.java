@@ -28,15 +28,12 @@ import java.sql.Statement;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextView  txtAccesso;
-    EditText  edtUserName;
-    EditText  edtPassword;
-    Button    btnLogin;
-    String    defaultUser     = "admin";
-    String    defaultPassword = "password";
-    String    userId;
-    ImageView logoApp;
-
+    TextView   txtAccesso;
+    EditText   edtUserName;
+    EditText   edtPassword;
+    Button     btnLogin;
+    String     userId;
+    ImageView  logoApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,23 +46,30 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin    = findViewById(R.id.btnEnter);
         logoApp     = findViewById(R.id.logoApp);
         logoApp.setImageResource(R.drawable.itsvolta);
+
+        //connect the app to de online database and report the state
+        if (DbUtility.connectionToDb()){
+            Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Connected no", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
-     * controlla le credenziali, se sono corrette lancia la main activity e instaura una connessione con il db
+     * ricerca l'id nel database, se l'id utente è valido lancia la main activity,
+     * altrimenti nega l'accesso
      * @param v
      */
-    public void effettuaAccesso (View v)  {
+    public void effettuaAccesso (View v) throws SQLException {
         String user = String.valueOf(edtUserName.getText());
         String password = String.valueOf(edtPassword.getText());
+        userId = DbUtility.getUserid(user, password);
 
-        if (user.equals(defaultUser) && password.equals(defaultPassword)) {
+        if (!userId.equals("invalid")) {
             txtAccesso.setText("Accesso effettuato!");
             txtAccesso.setTextColor(Color.parseColor("green"));
             txtAccesso.setVisibility(View.VISIBLE);
-            userId = getUserid(user, password);
             // add delay
-            connectionToDb();
             launchMainActivity(userId);
         } else {
             txtAccesso.setText("Accesso negato!");
@@ -84,36 +88,5 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(i);
     }
 
-    /** ### DA IMPLEMENTARE
-     * recupera dal DB l'id dell'utente che ha fatto login
-     * @param user String REQUIRE not null
-     * @param password String REQUIRE not null
-     * @return String id user
-     */
-    public String getUserid(String user, String password){
-        return "testid";
-    }
-
-    /**
-     * Instaura la connessione con il database
-     */
-    public void connectionToDb(){
-        Connection connection = null;
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.INTERNET}, PackageManager.PERMISSION_GRANTED);
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        try {
-            Class.forName(Classes);
-            connection = DriverManager.getConnection(DbUtility.url, DbUtility.username, DbUtility.password);
-            Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Connected no", Toast.LENGTH_SHORT).show();
-        }
-    }
-}
+}// END ACTIVITY
 

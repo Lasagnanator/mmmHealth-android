@@ -46,13 +46,13 @@ public class ProfileActivity extends AppCompatActivity {
      * @param id String REQUIRE not null
      */
     public void setUserData(String id){
-        name.setText("Mario");
-        lastname.setText("Rossi");
-        birthdate.setText("1/1/1990");
-        sex.setText("Female");
-        height.setText("160cm");
-        lastVisit.setText("31/12/2022");
-        lastReport.setText("31/2/2000mai");
+        name.setText(DbUtility.getUserName(id));
+        lastname.setText(DbUtility.getUserLastName(id));
+        birthdate.setText(DbUtility.getUserBirthday(id));
+        sex.setText(DbUtility.getUserSex(id));
+        height.setText(DbUtility.GetUserHeight(id));
+        lastVisit.setText(DbUtility.getUserLastVisit(id));
+        lastReport.setText(DbUtility.getUserLastReport(id));
         //RIVEDERE IF DOPO IMPLEMENTAZIONE BACKEND
         if ((sex.getText()).equals("Male")) {
             imgAvatar.setImageResource(R.drawable.maleavatar);
@@ -61,4 +61,4 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
     }
-}
+}// END ACTIVITY

@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.sql.Connection;
+
 public class MainActivity extends AppCompatActivity {
     ImageView imgUser;
     TextView  txtName;
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgProfileButton;
     ImageView imgPlanButton;
     ImageView imgReportButton;
+    String userSex = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         imgReportButton  = findViewById(R.id.imgReportButton);
 
         String userId  = getIntent().getExtras().getString("id");
-        //String userId = "testid";
         setUserInformations(userId);
 
         imgProfileButton.setOnTouchListener(new View.OnTouchListener() {
@@ -72,52 +74,18 @@ public class MainActivity extends AppCompatActivity {
      */
     public void setUserInformations(String id) {
         //search user by id
-        txtName.setText("Name: " + getUserName(id));
-        txtLastName.setText("Lastname: " + getUserLastName(id));
-        txtLastAccess.setText(("Last Access: " + getUserLastAccess(id)));
+        txtName.setText("Name: " + DbUtility.getUserName(id));
+        txtLastName.setText("Lastname: " + DbUtility.getUserLastName(id));
+        txtLastAccess.setText(("Last Access: " + DbUtility.getUserLastAccess(id)));
+        userSex = DbUtility.getUserSex(id);
         setUserImage(id);
     }
 
-    //#############################################################################################
-    //##                                                                                         ##
-    //##           Tutta parte da implementare con backend o array di users                      ##
-    //##                                                                                         ##
-    //#############################################################################################
     /**
-     * @param id String REQUIRE not null;
-     * @return String
+     * Setta l'immagine di avata in base al sesso del paziente
+     * @param id String REQUIRE not null
      */
-    public String getUserName(String id){
-        return "Mario";
-    }
-
-    /**
-     * @param id String REQUIRE not null;
-     * @return String
-     */
-    public String getUserLastName(String id){
-        return "Rossi";
-    }
-
-    /**
-     * @param id String REQUIRE not null;
-     * @return String
-     */
-    public String getUserAge(String id){
-        return "26";
-    }
-    /**
-     * @param id String REQUIRE not null;
-     * @return String
-     */
-    public String getUserLastAccess(String id){
-        return "31/02/1996";
-    }
-
     public void setUserImage(String id) {
-        // Da implementare
-        String userSex = "Male";
-
         if (userSex.equals("Male")) {
             imgUser.setImageResource(R.drawable.maleavatar);
         } else {
@@ -154,4 +122,4 @@ public class MainActivity extends AppCompatActivity {
         i.putExtra("id", id);
         startActivity(i);
     }
-}
+}// END ACTIVITY

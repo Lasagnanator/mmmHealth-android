@@ -60,7 +60,7 @@ public class ReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 launchDataActivity(userId);
-                submitData1(userId);
+                DbUtility.submitData1(userId);
             }
         });
 
@@ -68,7 +68,7 @@ public class ReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                launchWeareble(userId);
-               submitData1(userId);
+               DbUtility.submitData1(userId);
             }
         });
     }
@@ -90,18 +90,4 @@ public class ReportActivity extends AppCompatActivity {
     public void launchWeareble (String id) {
         // da implementare
     }
-
-    //#############################################################################################
-    //##                                                                                         ##
-    //##           Tutta parte da implementare con backend o array di users                      ##
-    //##                                                                                         ##
-    //#############################################################################################
-
-    /**
-     * trasmette i dati di seekbar e note al database
-     * @param id String REQUIRE not null
-     */
-    public void submitData1(String id){
-        // da implementare
-    }
-}
+}// END ACTIVITY
