@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.sql.SQLException;
 
 public class PlanActivity extends AppCompatActivity {
 
@@ -25,7 +28,12 @@ public class PlanActivity extends AppCompatActivity {
         txtNotes.setHeight(3000);
         txtNotes.setBackgroundColor(getResources().getColor(R.color.white));
         txtNotes.setTextColor(getResources().getColor(R.color.black));
-        setUserMedicalPlan(getIntent().getExtras().getString("id"));
+        try {
+            setUserMedicalPlan(getIntent().getExtras().getString("id"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "No user found", Toast.LENGTH_SHORT).show();
+        }
 
         btnCallMedico.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +57,7 @@ public class PlanActivity extends AppCompatActivity {
      * inserisce il piano medico nella textview
      * @param id String REQUIRE not null
      */
-    public void setUserMedicalPlan(String id){
+    public void setUserMedicalPlan(String id) throws SQLException {
         String medicalPlan = DbUtility.getMedicalPlan(id);
         txtNotes.setText(medicalPlan);
         PHONENUMBER = DbUtility.getPhoneNumber(id);

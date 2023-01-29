@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.sql.SQLException;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -32,7 +35,12 @@ public class ProfileActivity extends AppCompatActivity {
         lastReport = findViewById(R.id.lastReport);
         imgAvatar  = findViewById(R.id.imgAvatar);
 
-        setUserData(getIntent().getExtras().getString("id"));
+        try {
+            setUserData(getIntent().getExtras().getString("id"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "No user Found", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //#############################################################################################
@@ -45,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
      * cerca i paramentri dell'utente in base all'id e setta tutti i dati
      * @param id String REQUIRE not null
      */
-    public void setUserData(String id){
+    public void setUserData(String id) throws SQLException {
         name.setText(DbUtility.getUserName(id));
         lastname.setText(DbUtility.getUserLastName(id));
         birthdate.setText(DbUtility.getUserBirthday(id));

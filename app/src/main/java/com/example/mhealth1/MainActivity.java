@@ -8,8 +8,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class MainActivity extends AppCompatActivity {
     ImageView imgUser;
@@ -41,7 +43,12 @@ public class MainActivity extends AppCompatActivity {
         imgReportButton  = findViewById(R.id.imgReportButton);
 
         String userId  = getIntent().getExtras().getString("id");
-        setUserInformations(userId);
+        try {
+            setUserInformations(userId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "No user found", Toast.LENGTH_SHORT).show();
+        }
 
         imgProfileButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -72,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
      * Update user informations on main activity
      * @param id String REQUIRE not null
      */
-    public void setUserInformations(String id) {
+    public void setUserInformations(String id) throws SQLException {
         //search user by id
         txtName.setText("Name: " + DbUtility.getUserName(id));
         txtLastName.setText("Lastname: " + DbUtility.getUserLastName(id));

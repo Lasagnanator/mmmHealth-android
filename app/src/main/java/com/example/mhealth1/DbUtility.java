@@ -69,7 +69,8 @@ public class DbUtility {
 
     //#############################################################################################
     //##                                                                                         ##
-    //##           Tutta parte da implementare con backend                                       ##
+    //##                         Tutta parte da implementare con backend,                        ##
+    //##              query provvisorie e colonne risultato sicuramente sbagliate                ##
     //##                                                                                         ##
     //#############################################################################################
 
@@ -78,8 +79,16 @@ public class DbUtility {
      * @param id String REQUIRE not null;
      * @return String
      */
-    public static String getUserName(String id){
-        return "Mario";
+    public static String getUserName(String id) throws SQLException {
+        if (id.equals("alphabeto")){ return "AnGiMa";} else {
+
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT name FROM pazienti WHERE id = " + id);
+            String result = rs.getString(1);
+            rs.close();
+            st.close();
+            return result;
+        }
     }
 
     /**
@@ -87,8 +96,16 @@ public class DbUtility {
      * @param id String REQUIRE not null;
      * @return String
      */
-    public static String getUserLastName(String id){
-        return "Rossi";
+    public static String getUserLastName(String id) throws SQLException {
+        if (id.equals("alphabeto")){ return "CaDiLa";} else {
+
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT lastname FROM pazienti WHERE id = " + id);
+            String result = rs.getString(1);
+            rs.close();
+            st.close();
+            return result;
+        }
     }
 
     /**
@@ -96,35 +113,85 @@ public class DbUtility {
      * @param id String REQUIRE not null;
      * @return String
      */
-    public static String getUserSex(String id) { return "Male"; }
+    public static String getUserSex(String id) throws SQLException {
+        if (id.equals("alphabeto")){ return "Male";} else {
+
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT sex FROM pazienti WHERE id = " + id);
+            String result = rs.getString(1);
+            rs.close();
+            st.close();
+            return result;
+        }
+    }
 
     /**
      * cerca e restituisce la data di nascita pel paziente nel db
      * @param id String REQUIRE not null;
      * @return String
      */
-    public static String getUserBirthday(String id) { return "31/2/1945"; }
+    public static String getUserBirthday(String id) throws SQLException {
+        if (id.equals("alphabeto")){ return "21/11/2022";} else {
+
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT birthdate FROM pazienti WHERE id = " + id);
+            String result = rs.getString(1);
+            rs.close();
+            st.close();
+            return result;
+        }
+    }
 
     /**
      * cerca e restituisce l'altezza pel paziente nel db
      * @param id String REQUIRE not null;
      * @return string
      */
-    public static String GetUserHeight(String id) { return "160"; }
+    public static String GetUserHeight(String id) throws SQLException {
+        if (id.equals("alphabeto")){ return "nella media";} else {
+
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT height FROM pazienti WHERE id = " + id);
+            String result = rs.getString(1);
+            rs.close();
+            st.close();
+            return result;
+        }
+    }
 
     /**
      * cerca e restituisce la data dell'ultima visita del paziente nel db
      * @param id String REQUIRE not null;
      * @return String
      */
-    public static String getUserLastReport(String id) { return "ieri";  }
+    public static String getUserLastReport(String id) throws SQLException {
+        if (id.equals("alphabeto")){ return "manca la parte del report :(";} else {
+
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT last_report FROM pazienti WHERE id = " + id);
+            String result = rs.getString(1);
+            rs.close();
+            st.close();
+            return result;
+        }
+    }
 
     /**
      * cerca e restituisce il piano medico pel paziente nel db
      * @param id String REQUIRE not null;
      * @return String
      */
-    public static String getMedicalPlan(String id) { return "niente da segnalare, muori sereno :)"; }
+    public static String getMedicalPlan(String id) throws SQLException {
+        if (id.equals("alphabeto")){ return "rilassatevi, il lavoro è ancora lungo :) \n consiglio due caffè al giorno \n consiglio la meditazione ";} else {
+
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT medical_plan FROM pazienti WHERE id = " + id);
+            String result = rs.getString(1);
+            rs.close();
+            st.close();
+            return result;
+        }
+    }
 
     /**
      * cerca e restituisce il numero di telefono del medico curante del paziente nel db
@@ -132,21 +199,51 @@ public class DbUtility {
      * @param id String REQUIRE not null
      * @return String
      */
-    public static String getPhoneNumber(String id){ return "1234567890"; }
+    public static String getPhoneNumber(String id) throws SQLException {
+            if (id.equals("alphabeto")){  return "1234567890"; } else {
+
+                Statement st = connection.createStatement();
+                ResultSet rs = st.executeQuery("SELECT phone_number FROM pazienti LEFT JOIN doctor ON doctor_id = doctor_id WHERE patient_id = " + id);
+                String result = rs.getString(1);
+                rs.close();
+                st.close();
+                return result;
+            }
+    }
 
     /**
      * cerca e restituisce la data dell'ultimo report del paziente nel db
      * @param id String REQUIRE not null;
      * @return String
      */
-    public static String getUserLastAccess(String id){ return "31/02/1996"; }
+    public static String getUserLastAccess(String id) throws SQLException {
+                if (id.equals("alphabeto")){ return "probabilmente oggi"; } else {
+
+                    Statement st = connection.createStatement();
+                    ResultSet rs = st.executeQuery("SELECT last_access FROM pazienti WHERE id = " + id);
+                    String result = rs.getString(1);
+                    rs.close();
+                    st.close();
+                    return result;
+                }
+    }
 
     /**
      * cerca e restituisce la data dell'ultima visita del paziente nel db
      * @param id String REQUIRE not null;
      * @return String
      */
-    public static String getUserLastVisit(String id){ return "15/giu/2000mai"; }
+    public static String getUserLastVisit(String id) throws SQLException {
+                    if (id.equals("alphabeto")){ return "mai";} else {
+
+                        Statement st = connection.createStatement();
+                        ResultSet rs = st.executeQuery("SELECT last_visit FROM pazienti WHERE id = " + id);
+                        String result = rs.getString(1);
+                        rs.close();
+                        st.close();
+                        return result;
+                    }
+    }
 
     /**
      * carica i dati di feeling, peso ed eventuali note del paziente nel db
