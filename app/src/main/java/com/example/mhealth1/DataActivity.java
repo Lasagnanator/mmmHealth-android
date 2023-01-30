@@ -2,33 +2,50 @@ package com.example.mhealth1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 public class DataActivity extends AppCompatActivity {
-    ListView lstPressioneMin;
-    Integer[] valori = {40, 50, 60, 70, 80, 90, 100};
+   EditText edtSYS;
+   EditText edtDIA;
+   EditText edtBPM;
+   EditText edtSPO2;
+   Button   btnSubmit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data);
 
-        lstPressioneMin = findViewById(R.id.lstPressioneMin);
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_list_item_1, valori);
-        lstPressioneMin.setAdapter(adapter);
-        lstPressioneMin.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        "Hai selezionato l'elemento " + valori[position],
-                        Toast.LENGTH_SHORT).show();
+        edtBPM    = findViewById(R.id.edtBPM);
+        edtDIA    = findViewById(R.id.edtDIA);
+        edtSYS    = findViewById(R.id.edtSYS);
+        edtSPO2   = findViewById(R.id.edtSPO2);
+        btnSubmit = findViewById(R.id.btnSubmit);
+        String userId  = getIntent().getExtras().getString("id");
 
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DbUtility.submitData2(userId);
+                Toast.makeText(getApplicationContext(), "Thanks for your report! :)", Toast.LENGTH_SHORT).show();
+                launchMainActivity(userId);
             }
         });
     }
+
+    public void launchMainActivity(String id){
+        Intent i = new Intent(this, MainActivity.class);
+        i.putExtra("id", id);
+        startActivity(i);
+        finish();
+    }
+
 }

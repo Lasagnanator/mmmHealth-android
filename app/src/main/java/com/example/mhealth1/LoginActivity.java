@@ -86,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent i = new Intent(this, MainActivity.class);
             i.putExtra("id", id);
             startActivity(i);
+            finish();
     }
 
 }// END ACTIVITY

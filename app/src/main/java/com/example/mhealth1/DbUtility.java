@@ -3,6 +3,7 @@ package com.example.mhealth1;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.StrictMode;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -55,15 +56,21 @@ public class DbUtility {
     public static String getUserid(String user, String password) throws SQLException {
         String id= "invalid";
         Statement st = connection.createStatement();
-        if (user.equals("admin")&&password.equals("password")){return "alphabeto";}
-        ResultSet rs = st.executeQuery("SELECT * FROM login_pazienti ORDER BY id");
+        ResultSet rs = st.executeQuery("select * from login_patient lp order by lp.patient_id ");
+
         while (rs.next()) {
-            if ( user.equals(rs.getString(2)) && password.equals(rs.getString(3))){
-                id = rs.getString(1);
-                rs.close();
-                st.close();
+            String dbUsername = rs.getString(1);
+            String dbPassword = rs.getString(2);
+            Log.e("user", dbUsername);
+            Log.e("password", dbPassword);
+            Log.e("id", rs.getString(3));
+            if ( user.equals(dbUsername) && password.equals(dbPassword)){
+                id = rs.getString(3);
+                return id;
             }
         }
+        rs.close();
+        st.close();
         return id;
     }
 
@@ -80,15 +87,14 @@ public class DbUtility {
      * @return String
      */
     public static String getUserName(String id) throws SQLException {
-        if (id.equals("alphabeto")){ return "AnGiMa";} else {
-
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT name FROM pazienti WHERE id = " + id);
-            String result = rs.getString(1);
-            rs.close();
-            st.close();
-            return result;
-        }
+        String query = "select name from patient p where p.patient_id = " + id;
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        rs.next();
+        String result = rs.getString(1);
+        rs.close();
+        st.close();
+        return result;
     }
 
     /**
@@ -97,15 +103,14 @@ public class DbUtility {
      * @return String
      */
     public static String getUserLastName(String id) throws SQLException {
-        if (id.equals("alphabeto")){ return "CaDiLa";} else {
-
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT lastname FROM pazienti WHERE id = " + id);
-            String result = rs.getString(1);
-            rs.close();
-            st.close();
-            return result;
-        }
+        String query = "select lastname from patient p where p.patient_id = " + id;
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        rs.next();
+        String result = rs.getString(1);
+        rs.close();
+        st.close();
+        return result;
     }
 
     /**
@@ -114,15 +119,14 @@ public class DbUtility {
      * @return String
      */
     public static String getUserSex(String id) throws SQLException {
-        if (id.equals("alphabeto")){ return "Male";} else {
-
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT sex FROM pazienti WHERE id = " + id);
-            String result = rs.getString(1);
-            rs.close();
-            st.close();
-            return result;
-        }
+        String query = "select sex from patient p where p.patient_id = " + id;
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        rs.next();
+        String result = rs.getString(1);
+        rs.close();
+        st.close();
+        return result;
     }
 
     /**
@@ -131,15 +135,14 @@ public class DbUtility {
      * @return String
      */
     public static String getUserBirthday(String id) throws SQLException {
-        if (id.equals("alphabeto")){ return "21/11/2022";} else {
-
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT birthdate FROM pazienti WHERE id = " + id);
-            String result = rs.getString(1);
-            rs.close();
-            st.close();
-            return result;
-        }
+       String query = "select birthday from patient p where p.patient_id = " + id;
+       Statement st = connection.createStatement();
+       ResultSet rs = st.executeQuery(query);
+       rs.next();
+       String result = rs.getString(1);
+       rs.close();
+       st.close();
+       return result;
     }
 
     /**
@@ -148,15 +151,14 @@ public class DbUtility {
      * @return string
      */
     public static String GetUserHeight(String id) throws SQLException {
-        if (id.equals("alphabeto")){ return "nella media";} else {
-
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT height FROM pazienti WHERE id = " + id);
-            String result = rs.getString(1);
-            rs.close();
-            st.close();
-            return result;
-        }
+        String query = "select height from patient p where p.patient_id = " + id;
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        rs.next();
+        String result = rs.getString(1);
+        rs.close();
+        st.close();
+        return result;
     }
 
     /**
@@ -165,15 +167,16 @@ public class DbUtility {
      * @return String
      */
     public static String getUserLastReport(String id) throws SQLException {
-        if (id.equals("alphabeto")){ return "manca la parte del report :(";} else {
-
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT last_report FROM pazienti WHERE id = " + id);
-            String result = rs.getString(1);
-            rs.close();
-            st.close();
-            return result;
-        }
+        String query = "select r.date  from patient p inner join report r  \n" +
+                "on p.last_report  = r.report_id \n" +
+                "where p.patient_id  = " + id;
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        rs.next();
+        String result = rs.getString(1);
+        rs.close();
+        st.close();
+        return result;
     }
 
     /**
@@ -182,15 +185,14 @@ public class DbUtility {
      * @return String
      */
     public static String getMedicalPlan(String id) throws SQLException {
-        if (id.equals("alphabeto")){ return "rilassatevi, il lavoro è ancora lungo :) \n consiglio due caffè al giorno \n consiglio la meditazione ";} else {
-
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT medical_plan FROM pazienti WHERE id = " + id);
-            String result = rs.getString(1);
-            rs.close();
-            st.close();
-            return result;
-        }
+        String query = "select medical_plan from patient p where p.patient_id = " + id;
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        rs.next();
+        String result = rs.getString(1);
+        rs.close();
+        st.close();
+        return result;
     }
 
     /**
@@ -200,15 +202,16 @@ public class DbUtility {
      * @return String
      */
     public static String getPhoneNumber(String id) throws SQLException {
-            if (id.equals("alphabeto")){  return "1234567890"; } else {
-
-                Statement st = connection.createStatement();
-                ResultSet rs = st.executeQuery("SELECT phone_number FROM pazienti LEFT JOIN doctor ON doctor_id = doctor_id WHERE patient_id = " + id);
-                String result = rs.getString(1);
-                rs.close();
-                st.close();
-                return result;
-            }
+            String query = "select phonenumber  from patient p inner join doctor d \n" +
+                        "on p.doctor_id = d.doctor_id \n" +
+                        "where p.patient_id = " + id;
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            rs.next();
+            String result = rs.getString(1);
+            rs.close();
+            st.close();
+            return result;
     }
 
     /**
@@ -217,15 +220,15 @@ public class DbUtility {
      * @return String
      */
     public static String getUserLastAccess(String id) throws SQLException {
-                if (id.equals("alphabeto")){ return "probabilmente oggi"; } else {
-
-                    Statement st = connection.createStatement();
-                    ResultSet rs = st.executeQuery("SELECT last_access FROM pazienti WHERE id = " + id);
-                    String result = rs.getString(1);
-                    rs.close();
-                    st.close();
-                    return result;
-                }
+                String query ="select last_access from patient p where  p.patient_id = " + id;
+                Statement st = connection.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                rs.next();
+                String result = rs.getString(1);
+                rs.close();
+                st.close();
+                setUserLastAccess();
+                return result;
     }
 
     /**
@@ -234,15 +237,17 @@ public class DbUtility {
      * @return String
      */
     public static String getUserLastVisit(String id) throws SQLException {
-                    if (id.equals("alphabeto")){ return "mai";} else {
-
-                        Statement st = connection.createStatement();
-                        ResultSet rs = st.executeQuery("SELECT last_visit FROM pazienti WHERE id = " + id);
-                        String result = rs.getString(1);
-                        rs.close();
-                        st.close();
-                        return result;
-                    }
+        String query = "select last_visit from patient p where  p.patient_id = " + id;
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        rs.next();
+        String result = rs.getString(1);
+        rs.close();
+        st.close();
+        if (result == null) {
+            result= "ancora nessuna visita";
+        }
+        return result;
     }
 
     /**
@@ -253,4 +258,17 @@ public class DbUtility {
     public static void submitData1(String id){ // da implementare
     }
 
+    /**
+     * carica i dati di pressione, ecg e spo2 del paziente nel db
+     * @param id String REQUIRE not null
+     */
+    public static void submitData2(String id){ // da implementare
+    }
+
+    /**
+     * setta l'ultimo accesso alla data odierna
+     * @param id String REQUIRE not null
+     */
+    private static void setUserLastAccess(String id) {// da implementare
+    }
 }

@@ -129,4 +129,12 @@ public class MainActivity extends AppCompatActivity {
         i.putExtra("id", id);
         startActivity(i);
     }
+
+    /**
+     * dalla main activity non fare niente con il tasto indietro
+     */
+    @Override
+    public void onBackPressed() {
+        //do nothing
+    }
 }// END ACTIVITY
