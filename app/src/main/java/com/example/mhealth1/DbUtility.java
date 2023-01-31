@@ -1,18 +1,14 @@
 package com.example.mhealth1;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.StrictMode;
 import android.util.Log;
-import android.widget.Toast;
-
-import androidx.core.app.ActivityCompat;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DbUtility {
     private static String ip            = "2.234.155.178";// this is the host ip that your data base exists on you can use 10.0.2.2 for local host                                                    found on your pc. use if config for windows to find the ip if the database exists on                                                    your pc
@@ -168,7 +164,7 @@ public class DbUtility {
      */
     public static String getUserLastReport(String id) throws SQLException {
         String query = "select r.date  from patient p inner join report r  \n" +
-                "on p.last_report  = r.report_id \n" +
+                "on p.patient_id  = r.patient_id \n" +
                 "where p.patient_id  = " + id;
         Statement st = connection.createStatement();
         ResultSet rs = st.executeQuery(query);
@@ -219,7 +215,8 @@ public class DbUtility {
      * @param id String REQUIRE not null;
      * @return String
      */
-    public static String getUserLastAccess(String id) throws SQLException {
+    public static String getUserLastAccess(String id) throws SQLException { // an error occured
+        //return "none";
                 String query ="select last_access from patient p where  p.patient_id = " + id;
                 Statement st = connection.createStatement();
                 ResultSet rs = st.executeQuery(query);
@@ -227,7 +224,6 @@ public class DbUtility {
                 String result = rs.getString(1);
                 rs.close();
                 st.close();
-                setUserLastAccess();
                 return result;
     }
 
@@ -251,24 +247,40 @@ public class DbUtility {
     }
 
     /**
-     * carica i dati di feeling, peso ed eventuali note del paziente nel db
+     * carica i dati di feeling, peso, eventuali note, pressione, ecg e spo2 del paziente nel db
      * trasmette i dati di seekbar e note al database
      * @param id String REQUIRE not null
      */
-    public static void submitData1(String id){ // da implementare
+    public static void submitData1(String id, int feelings, int weight, String notes,  int SYS, int DIA, int BPM, int SpO2) throws SQLException { // an error occured
+        Date date = Calendar.getInstance().getTime();
+        String last_report = date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
+        String query =  "insert into report (feelings, weight, notes, sys, dia, bpm, spo2, date, patient_id) values ("+feelings+", "+weight+", "+notes+", "+SYS+", "+DIA+", "+BPM+", "+SpO2+", '"+last_report+"', "+id+")";
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        st.close();
+        rs.close();
     }
 
     /**
      * carica i dati di pressione, ecg e spo2 del paziente nel db
      * @param id String REQUIRE not null
      */
-    public static void submitData2(String id){ // da implementare
+    public static void submitDataWearable(String id){ // da implementare
     }
 
     /**
      * setta l'ultimo accesso alla data odierna
      * @param id String REQUIRE not null
      */
-    private static void setUserLastAccess(String id) {// da implementare
+    public static void setUserLastAccess(String id) throws SQLException {// Rompe tutto non è inset ma alter?
+        Date date = Calendar.getInstance().getTime();
+        //String last_access = date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
+        String last_access = "1999-12-31";
+        String query = "insert into patient (last_access)\n" +
+                "values ('"+last_access+"')";
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        st.close();
+        rs.close();
     }
 }

@@ -1,30 +1,17 @@
 package com.example.mhealth1;
 
 import static com.example.mhealth1.DbUtility.Classes;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -69,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             txtAccesso.setText("Accesso effettuato!");
             txtAccesso.setTextColor(Color.parseColor("green"));
             txtAccesso.setVisibility(View.VISIBLE);
+            //DbUtility.setUserLastAccess(userId); non funzia sbagliata la query 300%
             // add delay
             launchMainActivity(userId);
         } else {
@@ -83,10 +71,10 @@ public class LoginActivity extends AppCompatActivity {
      * @param id String REQUIRE not null
      */
     public void launchMainActivity(String id){
-            Intent i = new Intent(this, MainActivity.class);
-            i.putExtra("id", id);
-            startActivity(i);
-            finish();
+        Intent i = new Intent(this, MainActivity.class);
+        i.putExtra("id", id);
+        startActivity(i);
+        finish();
     }
 
 }// END ACTIVITY

@@ -1,7 +1,6 @@
 package com.example.mhealth1;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -9,8 +8,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.sql.Connection;
 import java.sql.SQLException;
 
 public class MainActivity extends AppCompatActivity {

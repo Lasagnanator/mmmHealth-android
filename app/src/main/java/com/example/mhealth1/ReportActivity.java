@@ -1,8 +1,6 @@
 package com.example.mhealth1;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -60,7 +58,6 @@ public class ReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 launchDataActivity(userId);
-                DbUtility.submitData1(userId);
             }
         });
 
@@ -68,7 +65,6 @@ public class ReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                launchWeareble(userId);
-               DbUtility.submitData1(userId);
             }
         });
     }
@@ -80,6 +76,9 @@ public class ReportActivity extends AppCompatActivity {
     public void launchDataActivity (String id) {
         Intent i = new Intent(getApplicationContext(), DataActivity.class);
         i.putExtra("id", userId);
+        i.putExtra("feelings", skbUmore.getProgress());
+        i.putExtra("weight", Integer.parseInt(String.valueOf(edtWeight.getText())));
+        i.putExtra("notes", String.valueOf(edtNotes.getText()));
         startActivity(i);
     }
 

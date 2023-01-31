@@ -1,16 +1,14 @@
 package com.example.mhealth1;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
+
+import java.sql.SQLException;
 
 public class DataActivity extends AppCompatActivity {
    EditText edtSYS;
@@ -30,13 +28,29 @@ public class DataActivity extends AppCompatActivity {
         edtSPO2   = findViewById(R.id.edtSPO2);
         btnSubmit = findViewById(R.id.btnSubmit);
         String userId  = getIntent().getExtras().getString("id");
+        int feelings   = getIntent().getExtras().getInt("feelings");
+        int weight     = getIntent().getExtras().getInt("weight");
+        String notes   = getIntent().getExtras().getString("notes");
+
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DbUtility.submitData2(userId);
-                Toast.makeText(getApplicationContext(), "Thanks for your report! :)", Toast.LENGTH_SHORT).show();
-                launchMainActivity(userId);
+                try {
+                    DbUtility.submitData1(userId,
+                                            feelings,
+                                            weight,
+                                            notes,
+                                            Integer.parseInt(String.valueOf(edtSYS.getText())),
+                                            Integer.parseInt(String.valueOf(edtDIA.getText())),
+                                            Integer.parseInt(String.valueOf(edtBPM.getText())),
+                                            Integer.parseInt(String.valueOf(edtSPO2.getText())) );
+                    Toast.makeText(getApplicationContext(), "Thanks for your report! :)", Toast.LENGTH_SHORT).show();
+                    launchMainActivity(userId);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "An error occured! :(", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
