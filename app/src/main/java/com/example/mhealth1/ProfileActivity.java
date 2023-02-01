@@ -41,12 +41,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    //#############################################################################################
-    //##                                                                                         ##
-    //##           Tutta parte da implementare con backend o array di users                      ##
-    //##                                                                                         ##
-    //#############################################################################################
-
     /**
      * cerca i paramentri dell'utente in base all'id e setta tutti i dati
      * @param id String REQUIRE not null
@@ -59,7 +53,6 @@ public class ProfileActivity extends AppCompatActivity {
         height.setText(DbUtility.GetUserHeight(id));
         lastVisit.setText(DbUtility.getUserLastVisit(id));
         lastReport.setText(DbUtility.getUserLastReport(id));
-        //RIVEDERE IF DOPO IMPLEMENTAZIONE BACKEND
         if ((sex.getText()).equals("Male")) {
             imgAvatar.setImageResource(R.drawable.maleavatar);
         } else {

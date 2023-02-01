@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ReportActivity extends AppCompatActivity {
 
@@ -57,7 +58,11 @@ public class ReportActivity extends AppCompatActivity {
         btnManual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchDataActivity(userId);
+                try {
+                    launchDataActivity(userId);
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Assicurati di non aver lasciato campi vuoti", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -70,23 +75,26 @@ public class ReportActivity extends AppCompatActivity {
     }
 
     /**
-     * lancia l'activity dove inserire i dati clinici manualmente
+     * launch data activity to insert other data manually
      * @param id String REQUIRE not null
      */
     public void launchDataActivity (String id) {
+
+        String notes = "'"+edtNotes.getText() +"'";
         Intent i = new Intent(getApplicationContext(), DataActivity.class);
         i.putExtra("id", userId);
         i.putExtra("feelings", skbUmore.getProgress());
         i.putExtra("weight", Integer.parseInt(String.valueOf(edtWeight.getText())));
-        i.putExtra("notes", String.valueOf(edtNotes.getText()));
+        i.putExtra("notes", notes);
         startActivity(i);
     }
 
     /**
-     * lancia l'activity dove inserire i dati clinici sul wearable
+     * launch wearable app
      * @param id String REQUIRE not null
      */
     public void launchWeareble (String id) {
         // da implementare
     }
+
 }// END ACTIVITY

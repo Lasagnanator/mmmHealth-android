@@ -248,17 +248,16 @@ public class DbUtility {
 
     /**
      * carica i dati di feeling, peso, eventuali note, pressione, ecg e spo2 del paziente nel db
-     * trasmette i dati di seekbar e note al database
      * @param id String REQUIRE not null
      */
     public static void submitData1(String id, int feelings, int weight, String notes,  int SYS, int DIA, int BPM, int SpO2) throws SQLException { // an error occured
         Date date = Calendar.getInstance().getTime();
         String last_report = date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
         String query =  "insert into report (feelings, weight, notes, sys, dia, bpm, spo2, date, patient_id) values ("+feelings+", "+weight+", "+notes+", "+SYS+", "+DIA+", "+BPM+", "+SpO2+", '"+last_report+"', "+id+")";
+        Log.e("query", query);
         Statement st = connection.createStatement();
-        ResultSet rs = st.executeQuery(query);
+        st.executeUpdate(query);
         st.close();
-        rs.close();
     }
 
     /**
@@ -274,13 +273,10 @@ public class DbUtility {
      */
     public static void setUserLastAccess(String id) throws SQLException {// Rompe tutto non è inset ma alter?
         Date date = Calendar.getInstance().getTime();
-        //String last_access = date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
-        String last_access = "1999-12-31";
-        String query = "insert into patient (last_access)\n" +
-                "values ('"+last_access+"')";
+        String last_access = date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
+        String query = "update patient set last_access = '"+last_access+"' where patient_id = " + id;
         Statement st = connection.createStatement();
-        ResultSet rs = st.executeQuery(query);
+        st.executeUpdate(query);
         st.close();
-        rs.close();
     }
 }
