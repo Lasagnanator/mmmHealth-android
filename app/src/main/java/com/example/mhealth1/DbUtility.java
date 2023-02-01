@@ -7,8 +7,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class DbUtility {
     private static String ip            = "2.234.155.178";// this is the host ip that your data base exists on you can use 10.0.2.2 for local host                                                    found on your pc. use if config for windows to find the ip if the database exists on                                                    your pc
@@ -69,13 +69,6 @@ public class DbUtility {
         st.close();
         return id;
     }
-
-    //#############################################################################################
-    //##                                                                                         ##
-    //##                         Tutta parte da implementare con backend,                        ##
-    //##              query provvisorie e colonne risultato sicuramente sbagliate                ##
-    //##                                                                                         ##
-    //#############################################################################################
 
     /**
      * cerca e restituisce il nome pel paziente nel db
@@ -215,16 +208,15 @@ public class DbUtility {
      * @param id String REQUIRE not null;
      * @return String
      */
-    public static String getUserLastAccess(String id) throws SQLException { // an error occured
-        //return "none";
-                String query ="select last_access from patient p where  p.patient_id = " + id;
-                Statement st = connection.createStatement();
-                ResultSet rs = st.executeQuery(query);
-                rs.next();
-                String result = rs.getString(1);
-                rs.close();
-                st.close();
-                return result;
+    public static String getUserLastAccess(String id) throws SQLException {
+        String query ="select last_access from patient p where  p.patient_id = " + id;
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        rs.next();
+        String result = rs.getString(1);
+        rs.close();
+        st.close();
+        return result;
     }
 
     /**
@@ -250,11 +242,12 @@ public class DbUtility {
      * carica i dati di feeling, peso, eventuali note, pressione, ecg e spo2 del paziente nel db
      * @param id String REQUIRE not null
      */
-    public static void submitData1(String id, int feelings, int weight, String notes,  int SYS, int DIA, int BPM, int SpO2) throws SQLException { // an error occured
-        Date date = Calendar.getInstance().getTime();
-        String last_report = date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
-        String query =  "insert into report (feelings, weight, notes, sys, dia, bpm, spo2, date, patient_id) values ("+feelings+", "+weight+", "+notes+", "+SYS+", "+DIA+", "+BPM+", "+SpO2+", '"+last_report+"', "+id+")";
-        Log.e("query", query);
+    public static void submitData1(String id, int feelings, int weight, String notes,  int SYS, int DIA, int BPM, int SpO2) throws SQLException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar c = Calendar.getInstance();
+        String date = sdf.format(c.getTime());
+
+        String query =  "insert into report (feelings, weight, notes, sys, dia, bpm, spo2, date, patient_id) values ("+feelings+", "+weight+", "+notes+", "+SYS+", "+DIA+", "+BPM+", "+SpO2+", '"+date+"', "+id+")";
         Statement st = connection.createStatement();
         st.executeUpdate(query);
         st.close();
@@ -271,10 +264,12 @@ public class DbUtility {
      * setta l'ultimo accesso alla data odierna
      * @param id String REQUIRE not null
      */
-    public static void setUserLastAccess(String id) throws SQLException {// Rompe tutto non è inset ma alter?
-        Date date = Calendar.getInstance().getTime();
-        String last_access = date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
-        String query = "update patient set last_access = '"+last_access+"' where patient_id = " + id;
+    public static void setUserLastAccess(String id) throws SQLException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        String date = sdf.format(c.getTime());
+
+        String query = "update patient set last_access = '"+date+"' where patient_id = " + id;
         Statement st = connection.createStatement();
         st.executeUpdate(query);
         st.close();
