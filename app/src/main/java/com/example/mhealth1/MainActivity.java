@@ -1,13 +1,14 @@
 package com.example.mhealth1;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import java.sql.SQLException;
 
 public class MainActivity extends AppCompatActivity {
     ImageView imgUser;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgProfileButton;
     ImageView imgPlanButton;
     ImageView imgReportButton;
+    String userSex = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +39,13 @@ public class MainActivity extends AppCompatActivity {
         imgPlanButton    = findViewById(R.id.imgPlanButton);
         imgReportButton  = findViewById(R.id.imgReportButton);
 
-        //String userId  = getIntent().getExtras().getString("id");
-        String userId = "testid";
-        setUserInformations(userId);
+        String userId  = getIntent().getExtras().getString("id");
+        try {
+            setUserInformations(userId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "No user found", Toast.LENGTH_SHORT).show();
+        }
 
         imgProfileButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -70,54 +76,20 @@ public class MainActivity extends AppCompatActivity {
      * Update user informations on main activity
      * @param id String REQUIRE not null
      */
-    public void setUserInformations(String id) {
+    public void setUserInformations(String id) throws SQLException {
         //search user by id
-        txtName.setText("Name: " + getUserName(id));
-        txtLastName.setText("Lastname: " + getUserLastName(id));
-        txtLastAccess.setText(("Last Access: " + getUserLastAccess(id)));
+        txtName.setText("Name: " + DbUtility.getUserName(id));
+        txtLastName.setText("Lastname: " + DbUtility.getUserLastName(id));
+        txtLastAccess.setText(("Last Access: " + DbUtility.getUserLastAccess(id)));
+        userSex = DbUtility.getUserSex(id);
         setUserImage(id);
     }
 
-    //#############################################################################################
-    //##                                                                                         ##
-    //##           Tutta parte da implementare con backend o array di users                      ##
-    //##                                                                                         ##
-    //#############################################################################################
     /**
-     * @param id String REQUIRE not null;
-     * @return String
+     * Setta l'immagine di avata in base al sesso del paziente
+     * @param id String REQUIRE not null
      */
-    public String getUserName(String id){
-        return "Mario";
-    }
-
-    /**
-     * @param id String REQUIRE not null;
-     * @return String
-     */
-    public String getUserLastName(String id){
-        return "Rossi";
-    }
-
-    /**
-     * @param id String REQUIRE not null;
-     * @return String
-     */
-    public String getUserAge(String id){
-        return "26";
-    }
-    /**
-     * @param id String REQUIRE not null;
-     * @return String
-     */
-    public String getUserLastAccess(String id){
-        return "31/02/1996";
-    }
-
     public void setUserImage(String id) {
-        // Da implementare
-        String userSex = "Male";
-
         if (userSex.equals("Male")) {
             imgUser.setImageResource(R.drawable.maleavatar);
         } else {
@@ -154,4 +126,12 @@ public class MainActivity extends AppCompatActivity {
         i.putExtra("id", id);
         startActivity(i);
     }
-}
+
+    /**
+     * dalla main activity non fare niente con il tasto indietro
+     */
+    @Override
+    public void onBackPressed() {
+        //do nothing
+    }
+}// END ACTIVITY

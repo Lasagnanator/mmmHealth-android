@@ -1,10 +1,11 @@
 package com.example.mhealth1;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import java.sql.SQLException;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -13,7 +14,6 @@ public class ProfileActivity extends AppCompatActivity {
     TextView  sex;
     TextView  birthdate;
     TextView  height;
-    TextView  weight;
     TextView  lastVisit;
     TextView  lastReport;
     ImageView imgAvatar;
@@ -29,28 +29,30 @@ public class ProfileActivity extends AppCompatActivity {
         birthdate  = findViewById(R.id.birthdate);
         sex        = findViewById(R.id.sex);
         height     = findViewById(R.id.height);
-        weight     = findViewById(R.id.weight);
         lastVisit  = findViewById(R.id.lastVisit);
         lastReport = findViewById(R.id.lastReport);
         imgAvatar  = findViewById(R.id.imgAvatar);
 
-        setUserData(getIntent().getExtras().getString("id"));
+        try {
+            setUserData(getIntent().getExtras().getString("id"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "No user Found", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
      * cerca i paramentri dell'utente in base all'id e setta tutti i dati
      * @param id String REQUIRE not null
      */
-    public void setUserData(String id){
-        name.setText("Mario");
-        lastname.setText("Rossi");
-        birthdate.setText("1/1/1990");
-        sex.setText("Male");
-        height.setText("160cm");
-        weight.setText("60kg");
-        lastVisit.setText("31/12/2022");
-        lastReport.setText("31/2/2000mai");
-        //RIVEDERE IF DOPO IMPLEMENTAZIONE BACKEND
+    public void setUserData(String id) throws SQLException {
+        name.setText(DbUtility.getUserName(id));
+        lastname.setText(DbUtility.getUserLastName(id));
+        birthdate.setText(DbUtility.getUserBirthday(id));
+        sex.setText(DbUtility.getUserSex(id));
+        height.setText(DbUtility.GetUserHeight(id));
+        lastVisit.setText(DbUtility.getUserLastVisit(id));
+        lastReport.setText(DbUtility.getUserLastReport(id));
         if ((sex.getText()).equals("Male")) {
             imgAvatar.setImageResource(R.drawable.maleavatar);
         } else {
@@ -58,4 +60,4 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
     }
-}
+}// END ACTIVITY
