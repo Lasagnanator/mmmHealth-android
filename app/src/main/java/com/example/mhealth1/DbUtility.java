@@ -2,6 +2,9 @@ package com.example.mhealth1;
 
 import android.os.StrictMode;
 import android.util.Log;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -49,18 +52,16 @@ public class DbUtility {
      * @param password String REQUIRE not null
      * @return String id user
      */
-    public static String getUserid(String user, String password) throws SQLException {
+    public static String getUserid(String user, String password) throws SQLException, NoSuchAlgorithmException {
         String id= "invalid";
+        String hashedpwd = hashPassword(password);
         Statement st = connection.createStatement();
         ResultSet rs = st.executeQuery("select * from login_patient lp order by lp.patient_id ");
 
         while (rs.next()) {
             String dbUsername = rs.getString(1);
             String dbPassword = rs.getString(2);
-            Log.e("user", dbUsername);
-            Log.e("password", dbPassword);
-            Log.e("id", rs.getString(3));
-            if ( user.equals(dbUsername) && password.equals(dbPassword)){
+            if ( user.equals(dbUsername) && hashedpwd.equals(dbPassword)){
                 id = rs.getString(3);
                 return id;
             }
@@ -243,7 +244,7 @@ public class DbUtility {
      * @param id String REQUIRE not null
      */
     public static void submitData1(String id, int feelings, int weight, String notes,  int SYS, int DIA, int BPM, int SpO2) throws SQLException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         String date = sdf.format(c.getTime());
 
@@ -274,4 +275,22 @@ public class DbUtility {
         st.executeUpdate(query);
         st.close();
     }
+
+    public static String hashPassword(String password) throws NoSuchAlgorithmException {
+
+        MessageDigest md = MessageDigest.getInstance("SHA-512");
+        md.reset();
+        md.update(password.getBytes());
+        byte[] mdArray = md.digest();
+        StringBuilder sb = new StringBuilder(mdArray.length * 2);
+        for(byte b : mdArray) {
+            int v = b & 0xff;
+            if(v < 16)
+                sb.append('0');
+            sb.append(Integer.toHexString(v));
+        }
+
+        return sb.toString();
+    }
+
 }
