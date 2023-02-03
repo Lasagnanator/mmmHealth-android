@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 public class LoginActivity extends AppCompatActivity {
@@ -47,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
      * altrimenti nega l'accesso
      * @param v
      */
-    public void effettuaAccesso (View v) throws SQLException {
+    public void effettuaAccesso (View v) throws SQLException, NoSuchAlgorithmException {
         String user = String.valueOf(edtUserName.getText());
         String password = String.valueOf(edtPassword.getText());
         userId = DbUtility.getUserid(user, password);
