@@ -2,6 +2,7 @@ package com.example.mhealth1;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -94,7 +95,7 @@ public class ReportActivity extends AppCompatActivity {
      * @param id String REQUIRE not null
      */
     public void launchWeareble (String id) {
-        // da implementare
+       // da implementare
     }
 
 }// END ACTIVITY
