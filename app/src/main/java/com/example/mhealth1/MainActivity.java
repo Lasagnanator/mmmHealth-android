@@ -134,4 +134,16 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         //do nothing
     }
+
+    @Override
+    protected void onDestroy() {
+        String userId  = getIntent().getExtras().getString("id");
+        try {
+            DbUtility.setUserLastAccess(userId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            super.onDestroy();
+        }
+    }
 }// END ACTIVITY

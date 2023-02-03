@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
             txtAccesso.setText("Accesso effettuato!");
             txtAccesso.setTextColor(Color.parseColor("green"));
             txtAccesso.setVisibility(View.VISIBLE);
-            DbUtility.setUserLastAccess(userId);
             // add delay
             launchMainActivity(userId);
         } else {
